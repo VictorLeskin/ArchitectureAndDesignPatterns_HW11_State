@@ -5,48 +5,48 @@
 #include "iCommand.hpp"
 #include <typeinfo>
 
-class cServerThread;
+class cGame;
 
 // stop after deque empty
 class cSoftStopCommand : public iCommand
 {
 public:
-	cSoftStopCommand(cServerThread* s) : s(s) {}
+	cSoftStopCommand(cGame* s) : s(s) {}
 
 	void Execute() override;
 
 	const char* Type() override { return typeid(*this).name(); }
 
 protected:
-	cServerThread* s;
+	cGame* s;
 };
 
 // stop after execution of this command
 class cHardStopCommand : public iCommand
 {
 public:
-	cHardStopCommand(cServerThread* s) : s(s) {}
+	cHardStopCommand(cGame* s) : s(s) {}
 
 	void Execute() override;
 
 	const char* Type() override { return typeid(*this).name(); }
 
 protected:
-	cServerThread* s;
+	cGame* s;
 };
 
 // stop after execution of this command
 class cCommandCounter : public iCommand
 {
 public:
-	cCommandCounter(cServerThread* s) : s(s) {}
+	cCommandCounter(cGame* s) : s(s) {}
 
 	void Execute() override;
 
 	const char* Type() override { return typeid(*this).name(); }
 
 protected:
-	cServerThread* s;
+	cGame* s;
 };
 
 

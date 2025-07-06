@@ -4,7 +4,10 @@
 #include "cCommandsDeque.hpp"
 #include "cExceptionsHandler.hpp"
 #include "cException.hpp"
+#include "cThreadSafeCommandsDeque.hpp"
+
 #include <thread>
+#include <chrono>
 
 using namespace std::chrono_literals;
 
@@ -12,7 +15,7 @@ cServerThread::cServerThread(cThreadSafeCommandsDeque* deque) : deque(deque)
 {
     behaviour = [](cServerThread& s)
         {
-            std::unique_ptr<iCommand> cmd;
+            std::shared_ptr<iCommand> cmd;
             
             try 
             {

@@ -2,7 +2,7 @@
 
 #include "cStopCommand.hpp"
 #include "cException.hpp"
-#include "cGame.hpp"
+#include "cServerThread.hpp"
 
 void cSoftStopCommand::Execute()
 {

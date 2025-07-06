@@ -2,24 +2,24 @@
 
 #include <gtest/gtest.h>
 
-#include "cGame.hpp"
+#include "cState.hpp"
 
 // gTest grouping class
-class test_cGame : public ::testing::Test
+class test_cState : public ::testing::Test
 {
 public:
   // additional class to access to member of tested class
-  class Test_cGame : public cGame
+  class Test_cState : public cState
   {
   public:
     // add here members for free access.
-    using cGame::cGame; // delegate constructors
+    using cState::cState; // delegate constructors
   };
 
 };
  
-TEST_F(test_cGame, test_ctor )
+TEST_F(test_cState, test_ctor )
 {
-  //Test_cGame t("name");
+  Test_cState t;
 }
 
