@@ -14,6 +14,8 @@ class cExceptionsHandler;
 
 class cState;
 class iCommand;
+class cWaitForSoftStop;
+class cMoveToState;
 
 class cServerThread
 {
