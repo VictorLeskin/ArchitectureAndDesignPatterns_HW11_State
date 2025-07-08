@@ -9,7 +9,7 @@ public:
 	virtual ~iCommand() = default;
 
 	virtual void Execute() = 0;
-	virtual const char* Type() = 0;
+	virtual const char* Type() const = 0;
 };
 
 

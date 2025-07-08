@@ -41,8 +41,9 @@ public:
     };
 };
 
+using test_ArchitectureAndDesignPatterns_HW11_State = test_cState;
 
-TEST_F(test_cState, test_thread_start)
+TEST_F(test_ArchitectureAndDesignPatterns_HW11_State, test_thread_start)
 {
     cThreadSafeCommandsDeque deque1;
 
@@ -77,7 +78,7 @@ TEST_F(test_cState, test_thread_start)
 }
 
 
-TEST_F(test_cState, test_thread_hardStop)
+TEST_F(test_ArchitectureAndDesignPatterns_HW11_State, test_thread_hardStop)
 {
     cThreadSafeCommandsDeque deque1;
 
@@ -104,7 +105,7 @@ TEST_F(test_cState, test_thread_hardStop)
     EXPECT_EQ(true, t1.iStop);
 }
 
-TEST_F(test_cState, test_thread_softStop)
+TEST_F(test_ArchitectureAndDesignPatterns_HW11_State, test_thread_softStop)
 {
     cThreadSafeCommandsDeque deque1;
 
@@ -131,3 +132,44 @@ TEST_F(test_cState, test_thread_softStop)
     EXPECT_EQ(true, t1.iStop);
     EXPECT_EQ(true, t1.iSoftStop);
 }
+
+TEST_F(test_ArchitectureAndDesignPatterns_HW11_State, test_thread_MoveTo )
+{
+  cThreadSafeCommandsDeque deque1;
+  std::deque<std::shared_ptr<iCommand>> storage;
+
+  Test_cServerThread t1(&deque1, &storage);
+
+  std::shared_ptr<iCommand> softStopCmd1(new cSoftStopCommand(&t1));
+  std::shared_ptr <iCommand> moveToCmd1(new cMoveToCommand(&t1));
+  std::shared_ptr <iCommand> runCmd1(new cRunCommand(&t1));
+
+  for (int i = 0; i < 10; ++i)
+  {
+    std::shared_ptr<iCommand> t8(new cCommandCounter(&t1));
+    deque1.push_back(t8);
+  }
+  deque1.push_back(moveToCmd1);
+  for (int i = 0; i < 10; ++i)
+  {
+    std::shared_ptr<iCommand> t8(new cCommandCounter(&t1));
+    deque1.push_back(t8);
+  }
+
+  deque1.push_back(runCmd1);
+  deque1.push_back(softStopCmd1);
+  for (int i = 0; i < 10; ++i)
+  {
+    std::shared_ptr<iCommand> t8(new cCommandCounter(&t1));
+    deque1.push_back(t8);
+  }
+
+  t1.bEnableStart = true;
+  t1.join();
+
+  EXPECT_EQ(20, t1.iCommandCounter);
+  EXPECT_EQ(10, storage.size() );
+  EXPECT_EQ(true, t1.iStop);
+  EXPECT_EQ(true, t1.iSoftStop);
+}
+

@@ -5,48 +5,65 @@
 #include "iCommand.hpp"
 #include <typeinfo>
 
-class cGame;
+class cServerThread;
 
 // stop after deque empty
 class cSoftStopCommand : public iCommand
 {
 public:
-	cSoftStopCommand(cGame* s) : s(s) {}
+	cSoftStopCommand(cServerThread* s) : s(s) {}
 
 	void Execute() override;
 
 	const char* Type() override { return typeid(*this).name(); }
 
 protected:
-	cGame* s;
+	cServerThread* s;
 };
 
 // stop after execution of this command
 class cHardStopCommand : public iCommand
 {
 public:
-	cHardStopCommand(cGame* s) : s(s) {}
+	cHardStopCommand(cServerThread* s) : s(s) {}
 
 	void Execute() override;
 
 	const char* Type() override { return typeid(*this).name(); }
 
 protected:
-	cGame* s;
+	cServerThread* s;
 };
+
+// stop after execution of this command
+class cStoreCommand : public iCommand
+{
+public:
+	cStoreCommand(cServerThread* s, std::deque<iCommand>* storage ) : s(s), storage(storage) {}
+
+	void Execute() override;
+
+	const char* Type() override { return typeid(*this).name(); }
+
+protected:
+	cServerThread* s;
+	std::deque<iCommand>* storage;
+};
+
 
 // stop after execution of this command
 class cCommandCounter : public iCommand
 {
 public:
-	cCommandCounter(cGame* s) : s(s) {}
+	cCommandCounter(cServerThread* s) : s(s) {}
 
 	void Execute() override;
 
 	const char* Type() override { return typeid(*this).name(); }
 
 protected:
-	cGame* s;
+	cServerThread* s;
+	
 };
 
 

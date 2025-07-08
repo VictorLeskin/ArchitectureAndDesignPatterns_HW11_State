@@ -20,6 +20,6 @@ public:
  
 TEST_F(test_cState, test_ctor )
 {
-  Test_cState t;
+  Test_cState t(nullptr);
 }
 

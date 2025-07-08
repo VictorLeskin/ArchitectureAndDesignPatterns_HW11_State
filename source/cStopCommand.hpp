@@ -4,6 +4,8 @@
 
 #include "iCommand.hpp"
 #include <typeinfo>
+#include <deque>
+#include <memory>
 
 class cServerThread;
 
@@ -15,7 +17,7 @@ public:
 
 	void Execute() override;
 
-	const char* Type() override { return typeid(*this).name(); }
+	const char* Type() const override { return typeid(*this).name(); }
 
 protected:
 	cServerThread* s;
@@ -29,11 +31,42 @@ public:
 
 	void Execute() override;
 
-	const char* Type() override { return typeid(*this).name(); }
+	const char* Type() const override { return typeid(*this).name(); }
 
 protected:
 	cServerThread* s;
 };
+
+// stop after execution of this command
+class cMoveToCommand : public iCommand
+{
+	friend class cServerThread;
+public:
+	cMoveToCommand(cServerThread* s) : s(s) {}
+
+	void Execute() override;
+
+	const char* Type() const override { return typeid(*this).name(); }
+
+protected:
+	cServerThread* s;
+};
+
+// stop after execution of this command
+class cRunCommand : public iCommand
+{
+	friend class cServerThread;
+public:
+	cRunCommand(cServerThread* s) : s(s) {}
+
+	void Execute() override;
+
+	const char* Type() const override { return typeid(*this).name(); }
+
+protected:
+	cServerThread* s;
+};
+
 
 // stop after execution of this command
 class cCommandCounter : public iCommand
@@ -43,7 +76,7 @@ public:
 
 	void Execute() override;
 
-	const char* Type() override { return typeid(*this).name(); }
+	const char* Type() const override { return typeid(*this).name(); }
 
 protected:
 	cServerThread* s;
